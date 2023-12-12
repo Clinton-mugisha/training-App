@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+
+{% block content %}
+
+<a href='{% url "job_create" %}'>Create Job Listing</a>
+
+<ul>
+    {% for x in object_list %}
+        <li><a href='{% url "job_detail" x.pk %}'> {{ x.title }} - {{ x.posted_at }}</a></li>
+    {% endfor %}
+</ul>
+
+{% endblock content %}

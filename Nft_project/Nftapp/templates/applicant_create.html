@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+
+{% block content %}
+   {% if not created %}
+   
+    <div style="margin-top: 70px;">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+        
+            {{ form|crispy }}
+            {% comment %} {% crispy form %} {% endcomment %}
+        
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+        
+    </div>
+    {% else %}
+        <h3>Your Application has been submited</h3>
+        <a href="/articles/{{object.id}}/"> {{ object.title }} - {{ object.content }} - {{ object.author }}</a>
+    {% endif %}
+
+{% endblock content %}
