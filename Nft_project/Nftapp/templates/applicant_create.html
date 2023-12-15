@@ -3,22 +3,29 @@
 
 
 {% block content %}
-   {% if not created %}
-   
-    <div style="margin-top: 70px;">
-        <form method="post" enctype="multipart/form-data">
-            {% csrf_token %}
-        
-            {{ form|crispy }}
-            {% comment %} {% crispy form %} {% endcomment %}
-        
-            <button type="submit" class="btn btn-primary">Submit</button>
-        </form>
-        
+{% if not created %}
+<div class="row">
+    <div class="col-8 grid-margin stretch-card mx-auto  mt-5">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Application</h4>
+                <form method="post" enctype="multipart/form-data" class="forms-sample">
+                    {% csrf_token %}
+
+                    {{ form|crispy }}
+                    {% comment %} {% crispy form %} {% endcomment %}
+
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+
+
+            </div>
+        </div>
     </div>
-    {% else %}
-        <h3>Your Application has been submited</h3>
-        <a href="/articles/{{object.id}}/"> {{ object.title }} - {{ object.content }} - {{ object.author }}</a>
-    {% endif %}
+</div>
+{% else %}
+<h3>Your Application has been submited</h3>
+<a href="/articles/{{object.id}}/"> {{ object.title }} - {{ object.content }} - {{ object.author }}</a>
+{% endif %}
 
 {% endblock content %}
