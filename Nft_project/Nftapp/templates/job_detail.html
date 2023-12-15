@@ -2,10 +2,18 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-    <h1>Jobs on offer</h1>
-    <h1>{{ object.title }}</h1>
-    <p>{{ object.description }}</p>
-    <p>{{ object.posted_at }}</p>
-    
-
+<div class="row">
+    <div class="col-12 grid-margin stretch-card mx-auto  mt-5">
+        <div class="card">
+            <div class="card-body">
+                <h4>Job on offer</h4>
+                <h1 class="card-title">{{ object.title }}</h1>
+                <p>{{ object.description }}</p>
+                <p>{{ object.posted_at }}</p>
+                <button  class="btn btn-primary"><a class="nav-link" href="{% url 'applicant_create' %}" style="text-decoration: none; color: azure;">Apply</a></button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
 {% endblock content %}
