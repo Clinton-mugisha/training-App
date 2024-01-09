@@ -1,4 +1,6 @@
-#!/home/komuhangi/Desktop/NFT-consult/training-App/venv/bin/python
+#!/bin/sh
+'''exec' "/home/clinton/projects/training app/venv/bin/python3" "$0" "$@"
+' '''
 # -*- coding: utf-8 -*-
 import re
 import sys
