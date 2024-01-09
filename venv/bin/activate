@@ -38,7 +38,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="/home/komuhangi/Desktop/NFT-consult/training-App/venv"
+VIRTUAL_ENV="/home/clinton/projects/training app/venv"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"

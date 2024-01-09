@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+{% if not created %}
+
+<div class="row">
+    <div class="col-8 grid-margin stretch-card mx-auto  mt-5">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Job Vacancy</h4>
+                <form method="post" class="forms-sample">
+                    {% csrf_token %}
+
+                    {{ form|crispy }}
+
+
+                    <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+{% else %}
+<h3>Your Job Listing was created</h3>
+<a href="/job_list/{{object.id}}/"> {{ object.title }} - {{ object.posted_at }}</a>
+{% endif %}
+
+{% endblock content %}
