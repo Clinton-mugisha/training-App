@@ -1,21 +1,11 @@
-{% extends 'base.html' %}
-
-{% block content %}
-  <h1>Ranked Resumes</h1>
-  <table>
-    <thead>
-      <tr>
-        <th>Resume Description</th>
-        <th>Ranking Score</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for index, row in ranked_df.iterrows %}
-        <tr>
-          <td>{{ row.description }}</td>
-          <td>{{ row.Ranking_Score }}</td>
-        </tr>
-      {% endfor %}
-    </tbody>
-  </table>
-{% endblock %}
+<!-- yourapp/templates/rank_resumes.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Rank Resumes</title>
+</head>
+<body>
+    <h1>Rank Resumes</h1>
+    <p>Ranking complete. Check the Admin panel to view the updated ranking scores.</p>
+</body>
+</html>

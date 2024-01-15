@@ -15,6 +15,7 @@ class Applicant(models.Model):
     cv = models.FileField(upload_to='cvs/')
     applied_job = models.ForeignKey(Job, on_delete=models.CASCADE)
     applied_at = models.DateTimeField(auto_now_add=True)
+    ranking_score = models.FloatField(null=True, blank=True)
 
     def __str__(self):
         return self.name
