@@ -1,11 +1,32 @@
 <!-- yourapp/templates/rank_resumes.html -->
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Rank Resumes</title>
-</head>
-<body>
-    <h1>Rank Resumes</h1>
-    <p>Ranking complete. Check the Admin panel to view the updated ranking scores.</p>
-</body>
-</html>
+<!-- rank_resumes.html -->
+
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block content %}
+<h1>Ranked Resumes</h1>
+
+<table border="1">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Email</th>
+      <th>CV</th>
+      <th>Ranking Score</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for applicant in applicants %}
+    <tr>
+      <td>{{ applicant.name }}</td>
+      <td>{{ applicant.email }}</td>
+      <td>{{ applicant.cv.url }}</td>
+      <td>{{ applicant.ranking_score|default:"Not Ranked" }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{% endblock content %}
