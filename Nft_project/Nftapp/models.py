@@ -21,14 +21,15 @@ class Applicant(models.Model):
         return self.name
 
 class Resume(models.Model):
-    full_name = models.CharField(max_length=100)
+    full_name = models.CharField(max_length=255)
     phone_number = models.CharField(max_length=15)
     email = models.EmailField()
-    education = models.TextField()
-    work_experience = models.TextField()
+    education = models.CharField(max_length=255)
     skills = models.TextField()
-    languages = models.TextField(blank=True, null=True)
-    cv = models.FileField(upload_to='cvs/')
+    work_experience = models.TextField()
+    languages = models.TextField()
+    other_language = models.CharField(max_length=100, blank=True, null=True)  # Add this field
+    upload_cv = models.FileField(upload_to='cv_uploads/')
 
     def __str__(self):
         return self.full_name
