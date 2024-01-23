@@ -18,7 +18,7 @@ class ApplicantForm(forms.ModelForm):
 class ResumeForm(forms.ModelForm):
     class Meta:
         model = Resume
-        fields = "__all__"
+        fields = ["full_name", "phone_number", "email", "education", "work_experience", "skills", "languages", "cv" ]
 
     WORK_EXPERIENCE_CHOICES = [
         ("0-1", "0-1 years"),
@@ -57,6 +57,7 @@ class ResumeForm(forms.ModelForm):
     education_other = forms.CharField(
         label="Specify Other Education",
         required=False,
+        widget=forms.TextInput(attrs={'class': 'other-education-field'}),
     )
 
     skills = forms.CharField(
@@ -73,4 +74,5 @@ class ResumeForm(forms.ModelForm):
     languages_other = forms.CharField(
         label="Specify Other Languages",
         required=False,
+        widget=forms.TextInput(attrs={'class': 'other-languages-field'}),
     )

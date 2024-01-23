@@ -1,6 +1,6 @@
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView
-from django.shortcuts import render, redirect
+from django.shortcuts import render, HttpResponse
 from django.views import View
 from .models import Job, Applicant
 from .forms import JobForm, ApplicantForm, ResumeForm
@@ -50,17 +50,30 @@ class ApplicantCreateView(CreateView):
     form_class = ApplicantForm
     template_name = 'applicant_create.html'
     success_url = reverse_lazy('job_list')
-    
+
 
 
 def create_resume(request):
     if request.method == 'POST':
-        form = ResumeForm(request.POST)
+        form = ResumeForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
             # You can add a success message or redirect to a thank-you page
-            return redirect('thank_you_page')
+            return HttpResponse("Thank you for submitting your resume!")
     else:
         form = ResumeForm()
 
     return render(request, 'create_resume.html', {'form': form})
+
+
+# def create_resume(request):
+#     if request.method == 'POST':
+#         form = ResumeForm(request.POST)
+#         if form.is_valid():
+#             form.save()
+#             # You can add a success message or redirect to a thank-you page
+#             return redirect('thank_you_page')
+#     else:
+#         form = ResumeForm()
+
+#     return render(request, 'create_resume.html', {'form': form})

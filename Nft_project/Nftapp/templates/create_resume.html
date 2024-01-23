@@ -2,7 +2,7 @@
 {% block content %}
 <div class="card">
     <div class="card-body">
-        <form method="post">
+        <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
             {{ form.as_p }}
             <button type="submit" class="btn btn-primary">Save</button>
@@ -10,4 +10,32 @@
         <br>
     </div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var educationSelect = document.getElementById('id_education');
+        var educationOtherField = document.querySelector('.other-education-field');
+
+        var languagesSelect = document.getElementById('id_languages');
+        var languagesOtherField = document.querySelector('.other-languages-field');
+
+        function toggleOtherEducationField() {
+            educationOtherField.style.display = (educationSelect.value === 'other') ? 'block' : 'none';
+        }
+
+        function toggleOtherLanguagesField() {
+            languagesOtherField.style.display = (languagesSelect.value === 'other') ? 'block' : 'none';
+        }
+
+        // Initial toggle
+        toggleOtherEducationField();
+        toggleOtherLanguagesField();
+
+        // Add event listeners
+        educationSelect.addEventListener('change', toggleOtherEducationField);
+        languagesSelect.addEventListener('change', toggleOtherLanguagesField);
+    });
+</script>
+
+
 {% endblock %}
