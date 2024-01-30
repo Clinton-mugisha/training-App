@@ -1,35 +1,35 @@
+# Nftapp/views.py
+from django.shortcuts import render, HttpResponse, get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView
-from django.shortcuts import render, redirect
-from django.views import View
-from .models import Job, Applicant
-from .forms import JobForm, ApplicantForm, ResumeForm
-from .ml_module import train_model, rank_resumes # Import the ml_module functions
+from .models import Job, Resume
+from .forms import JobForm, ResumeForm
 
-class RankResumesView(View):
-    template_name = 'rank_resumes.html'
+from .ml_utils import load_data, create_overall_infos_column, apply_text_preprocessing, calculate_cosine_similarity_matrix, rank_candidates
 
-    def get(self, request, *args, **kwargs):
-        # Fetch the job description from the database or any other source
-        job_description = Job.objects.get(pk=1).description  # Assuming you have a job with ID 1
 
-        # Train the model
-        rf_classifier, tfidf_vectorizer, label_encoder = train_model()
+def ranked_applicants_view(request, job_id):
+    # Get the job based on job_id
+    job = get_object_or_404(Job, pk=job_id)
 
-        # Get all applicants for the specified job
-        applicants = Applicant.objects.filter(applied_job_id=1)  # Assuming the job ID is 1
+    # Load data, create overall_infos column, and apply text preprocessing
+    df = load_data()
+    df = create_overall_infos_column(df)
+    cleaned_infos = apply_text_preprocessing(df)
 
-        # Rank resumes
-        ranking_scores = rank_resumes(job_description, rf_classifier, tfidf_vectorizer, label_encoder, applicants)
+    # Calculate cosine similarity matrix
+    similarity_matrix = calculate_cosine_similarity_matrix(cleaned_infos)
 
-        # Prepare the data to pass to the template
-        context = {
-            'applicants': applicants,
-            'ranking_scores': ranking_scores,
-        }
+    # Rank candidates
+    top_candidates = rank_candidates(similarity_matrix)
 
-        # Render the template with the data
-        return render(request, self.template_name, context)
+    # Get additional information for the top candidates (name, email, and score)
+    candidates_info = []
+    for candidates in top_candidates:
+        candidates_info.append([(df.loc[candidate[0], 'full_name'], df.loc[candidate[0], 'email'], candidate[1]) for candidate in candidates])
+
+    context = {'job': job, 'top_candidates': candidates_info}
+    return render(request, 'ranked_applicants.html', context)
 
 class JobListView(ListView):
     model = Job
@@ -39,27 +39,54 @@ class JobDetailView(DetailView):
     model = Job
     template_name = 'job_detail.html'
 
+    
+
 class JobCreateView(CreateView):
     model = Job
     form_class = JobForm
     template_name = 'job_create.html'
     success_url = reverse_lazy('job_list')
 
-class ApplicantCreateView(CreateView):
-    model = Applicant
-    form_class = ApplicantForm
-    template_name = 'applicant_create.html'
-    success_url = reverse_lazy('job_list')
-    
-
+# class ApplicantCreateView(CreateView):
+#     model = Applicant
+#     form_class = ApplicantForm
+#     template_name = 'applicant_create.html'
+#     success_url = reverse_lazy('job_list')
 
 def create_resume(request):
     if request.method == 'POST':
-        form = ResumeForm(request.POST)
+        form = ResumeForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
+            # Get the form data
+            full_name = form.cleaned_data['full_name']
+            phone_number = form.cleaned_data['phone_number']
+            email = form.cleaned_data['email']
+            education = form.cleaned_data['education']
+            skills = form.cleaned_data['skills']
+            work_experience = form.cleaned_data['work_experience']
+            upload_cv = form.cleaned_data['upload_cv']
+
+
+
+            # Save the form data, including the applied_job association
+            applied_job = form.cleaned_data['applied_job']
+            
+            # Create and save the Resume instance
+            resume = Resume(
+                full_name=full_name,
+                phone_number=phone_number,
+                email=email,
+                education=education,
+                skills=skills,
+                work_experience=work_experience,
+                upload_cv=upload_cv,
+                applied_job=applied_job
+            )
+            resume.save()
+
             # You can add a success message or redirect to a thank-you page
-            return redirect('thank_you_page')
+            return HttpResponse("Thank you for submitting your resume!")
+
     else:
         form = ResumeForm()
 

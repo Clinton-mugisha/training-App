@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>Ranked Applicants for {{ job.title }}</h2>
+
+  {% for candidate_info in top_candidates %}
+  {% for candidate in candidate_info %}
+      <div>
+          <p>Name: {{ candidate.0 }}</p>
+          <p>Email: {{ candidate.1 }}</p>
+          <p>Score: {{ candidate.2 }}</p>
+      </div>
+  {% endfor %}
+{% endfor %}
+
+  <a href="{% url 'job_list' %}">Back to Job List</a>
+{% endblock %}
