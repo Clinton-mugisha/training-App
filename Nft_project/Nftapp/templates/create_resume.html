@@ -1,13 +1,195 @@
 {% extends "base.html" %}
+{% load crispy_forms_tags %}
 {% block content %}
-<div class="card">
-    <div class="card-body">
-        <form method="post">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit" class="btn btn-primary">Save</button>
-        </form>
-        <br>
+<!-- <div class="row" style="width: 1200px;">
+    <div class="col-8 grid-margin stretch-card mx-auto  mt-5">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Apply for Job</h4>
+                <form method="post" class="forms-sample">
+                    {% csrf_token %}
+                    <div class="mb-3 col-sm">
+                        {{ form|crispy }}
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+        </div>
     </div>
 </div>
+<div class="row" style="width: 1200px;">
+    <div class="col-8 grid-margin stretch-card mx-auto  mt-5">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Apply for Job</h4>
+                <form class="row g-3">
+                    <div class="col-md-6">
+
+                        <label for="inputEmail4" class="form-label">Full Name</label>
+                        <input type="text" class="form-control">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="inputPassword4" class="form-label">Phone number</label>
+                        <input type="text" class="form-control">
+                    </div>
+                    <div class="col-12">
+                        <label for="inputEmail4" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="inputEmail4">
+                    </div>
+                    <div class="form-check-inline">
+                        <label for="inputAddress" class="form-label">Education</label>
+
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1"
+                                value="option1">
+                            <label class="form-check-label" style="color: aliceblue;" for="inlineRadio1">Diploma</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2"
+                                value="option2">
+                            <label class="form-check-label" style="color: aliceblue;" for="inlineRadio2">Degree</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2"
+                                value="option2">
+                            <label class="form-check-label" style="color: aliceblue;" for="inlineRadio2">Masters</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2"
+                                value="option2">
+                            <label class="form-check-label" style="color: aliceblue;"
+                                for="inlineRadio2">Doctorate</label>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <label for="inputEmail4" class="form-label">Skills</label>
+                        <input type="text" class="form-control" id="inputEmail4">
+                    </div>
+                    <div class="form-check-inline">
+                        <label for="inputAddress" class="form-label">Work Experience</label>
+
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1"
+                                value="option1">
+                            <label class="form-check-label" style="color: aliceblue;" for="inlineRadio1">0-1</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2"
+                                value="option2">
+                            <label class="form-check-label" style="color: aliceblue;" for="inlineRadio2">2-3</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2"
+                                value="option2">
+                            <label class="form-check-label" style="color: aliceblue;" for="inlineRadio2">4-5</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2"
+                                value="option2">
+                            <label class="form-check-label" style="color: aliceblue;" for="inlineRadio2">6-7</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2"
+                                value="option2">
+                            <label class="form-check-label" style="color: aliceblue;" for="inlineRadio2">8-9</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2"
+                                value="option2">
+                            <label class="form-check-label" style="color: aliceblue;" for="inlineRadio2">10 and
+                                more</label>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-check-inline">
+                            <label for="inputAddress" class="form-label">Languages</label>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
+                                <label class="form-check-label" style="color: aliceblue;"
+                                    for="inlineCheckbox1">English</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">
+                                <label class="form-check-label" style="color: aliceblue;"
+                                    for="inlineCheckbox2">Kiswahili</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">
+                                <label class="form-check-label" style="color: aliceblue;"
+                                    for="inlineCheckbox2">French</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">
+                                <label class="form-check-label" style="color: aliceblue;"
+                                    for="inlineCheckbox2">Other</label>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <label for="inputEmail4" class="form-label">Upload cv</label>
+                        <input type="file" class="form-control" id="inputEmail4">
+                    </div>
+
+                    <br>
+                    <br>
+
+                    <div class="col-12">
+                        <button type="submit" class="btn btn-primary">submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div> -->
+<div class="row" style="width: 1200px;">
+    <div class="col-8 grid-margin stretch-card mx-auto mt-5">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Apply for Job</h4>
+                <form method="post" class="row g-3" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="col-md-6">
+                        <label for="{{ form.full_name.id_for_label }}" class="form-label" style="color: aliceblue;">Full Name</label>
+                        {{ form.full_name }}
+                    </div>
+                    <div class="col-md-6">
+                        <label for="{{ form.phone_number.id_for_label }}" class="form-label" style="color: aliceblue;">Phone number</label>
+                        {{ form.phone_number }}
+                    </div>
+                    <div class="col-12">
+                        <label for="{{ form.email.id_for_label }}" class="form-label" style="color: aliceblue;">Email</label>
+                        {{ form.email }}
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label" style="color: aliceblue;">Education</label>
+                        {{ form.education }}
+                    </div>
+                    <div class="col-12">
+                        <label for="{{ form.skills.id_for_label }}" class="form-label" style="color: aliceblue;">Skills</label>
+                        {{ form.skills }}
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label" style="color: aliceblue;">Work Experience</label>
+                        {{ form.work_experience }}
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label" style="color: aliceblue;">Languages</label>
+                        {{ form.languages }}
+                    </div>
+                    <div class="col-12">
+                        <label for="{{ form.cv.id_for_label }}" class="form-label" style="color: aliceblue;">Upload CV</label>
+                        {{ form.cv }}
+                    </div>
+                    <div class="col-12">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+           
+    </div>
+</div>
+
+
 {% endblock %}

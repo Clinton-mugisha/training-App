@@ -51,7 +51,7 @@ class ResumeForm(forms.ModelForm):
 
     education = forms.ChoiceField(
         choices=EDUCATION_CHOICES,
-        widget=forms.RadioSelect,
+       widget=forms.RadioSelect(attrs={'class': 'form-check-inline'}),
     )
 
     education_other = forms.CharField(
@@ -61,12 +61,12 @@ class ResumeForm(forms.ModelForm):
 
     skills = forms.CharField(
         label="Skills",
-        widget=forms.Textarea(attrs={"rows": 4}),
+        widget=forms.Textarea(attrs={"rows": 4,}),
     )
 
     languages = forms.MultipleChoiceField(
         choices=LANGUAGES_CHOICES,
-        widget=forms.CheckboxSelectMultiple,
+        widget=forms.CheckboxSelectMultiple(attrs={'class': 'form-check-inline'}),
         required=False,
     )
 
@@ -74,3 +74,8 @@ class ResumeForm(forms.ModelForm):
         label="Specify Other Languages",
         required=False,
     )
+    widgets ={
+        'full_name' : forms.TextInput(attrs={'class' : 'form-control'})
+    }
+
+    
