@@ -65,3 +65,7 @@ def rank_candidates(similarity_matrix, num_top_candidates=5):
         top_candidates.append(top_candidates_for_job)
 
     return top_candidates
+
+
+
+

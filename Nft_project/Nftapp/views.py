@@ -8,13 +8,42 @@ from .forms import JobForm, ResumeForm
 from .ml_utils import load_data, create_overall_infos_column, apply_text_preprocessing, calculate_cosine_similarity_matrix, rank_candidates
 
 
+# def ranked_applicants_view(request, job_id):
+#     # Get the job based on job_id
+#     job = get_object_or_404(Job, pk=job_id)
+
+#     # Load data, create overall_infos column, and apply text preprocessing
+#     df = load_data()
+#     df = create_overall_infos_column(df)
+#     cleaned_infos = apply_text_preprocessing(df)
+
+#     # Calculate cosine similarity matrix
+#     similarity_matrix = calculate_cosine_similarity_matrix(cleaned_infos)
+
+#     # Rank candidates
+#     top_candidates = rank_candidates(similarity_matrix)
+
+#     # Get additional information for the top candidates (name, email, and score)
+#     candidates_info = []
+#     for candidates in top_candidates:
+#         candidates_info.append([(df.loc[candidate[0], 'full_name'], df.loc[candidate[0], 'email'], candidate[1]) for candidate in candidates])
+
+#     context = {'job': job, 'top_candidates': candidates_info}
+#     return render(request, 'ranked_applicants.html', context)
+
+from django.shortcuts import render, get_object_or_404
+from .models import Job
+from .ml_utils import load_data, create_overall_infos_column, apply_text_preprocessing, calculate_cosine_similarity_matrix, rank_candidates
+
 def ranked_applicants_view(request, job_id):
     # Get the job based on job_id
     job = get_object_or_404(Job, pk=job_id)
 
-    # Load data, create overall_infos column, and apply text preprocessing
+    # Load data and create overall_infos column
     df = load_data()
     df = create_overall_infos_column(df)
+
+    # Apply text preprocessing
     cleaned_infos = apply_text_preprocessing(df)
 
     # Calculate cosine similarity matrix
@@ -23,13 +52,25 @@ def ranked_applicants_view(request, job_id):
     # Rank candidates
     top_candidates = rank_candidates(similarity_matrix)
 
-    # Get additional information for the top candidates (name, email, and score)
-    candidates_info = []
-    for candidates in top_candidates:
-        candidates_info.append([(df.loc[candidate[0], 'full_name'], df.loc[candidate[0], 'email'], candidate[1]) for candidate in candidates])
+    # Organize candidates by job title
+    candidates_by_job = {}
+    for idx, candidates in enumerate(top_candidates):
+        job_title = df.iloc[idx]['title']
+        if job_title not in candidates_by_job:
+            candidates_by_job[job_title] = []
+        for candidate in candidates:
+            candidate_info = (df.loc[candidate[0], 'full_name'], df.loc[candidate[0], 'email'], candidate[1])
+            candidates_by_job[job_title].append(candidate_info)
 
-    context = {'job': job, 'top_candidates': candidates_info}
+    context = {'candidates_by_job': candidates_by_job}
     return render(request, 'ranked_applicants.html', context)
+
+
+
+
+
+
+
 
 class JobListView(ListView):
     model = Job

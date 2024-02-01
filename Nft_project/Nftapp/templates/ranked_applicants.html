@@ -1,17 +1,16 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <h2>Ranked Applicants for {{ job.title }}</h2>
-
-  {% for candidate_info in top_candidates %}
-  {% for candidate in candidate_info %}
-      <div>
-          <p>Name: {{ candidate.0 }}</p>
-          <p>Email: {{ candidate.1 }}</p>
-          <p>Score: {{ candidate.2 }}</p>
-      </div>
+  {% for job_title, candidates_info in candidates_by_job.items %}
+    <h2>{{ job_title }}</h2>
+    <ul>
+      {% for candidate_info in candidates_info %}
+        <li>
+          <p>Name: {{ candidate_info.0 }}</p>
+          <p>Email: {{ candidate_info.1 }}</p>
+          <p>Score: {{ candidate_info.2 }}</p>
+        </li>
+      {% endfor %}
+    </ul>
   {% endfor %}
-{% endfor %}
-
-  <a href="{% url 'job_list' %}">Back to Job List</a>
 {% endblock %}
