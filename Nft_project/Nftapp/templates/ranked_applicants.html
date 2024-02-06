@@ -1,16 +1,13 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  {% for job_title, candidates_info in candidates_by_job.items %}
-    <h2>{{ job_title }}</h2>
-    <ul>
-      {% for candidate_info in candidates_info %}
-        <li>
-          <p>Name: {{ candidate_info.0 }}</p>
-          <p>Email: {{ candidate_info.1 }}</p>
-          <p>Score: {{ candidate_info.2 }}</p>
-        </li>
-      {% endfor %}
-    </ul>
-  {% endfor %}
+  <h2>{{ job.title }}</h2>
+  <ul>
+    {% for candidate_info in top_candidates %}
+      <li>
+        <p>Name: {{ candidate_info.0 }}</p>
+        <p>Score: {{ candidate_info.1 }}</p>
+      </li>
+    {% endfor %}
+  </ul>
 {% endblock %}

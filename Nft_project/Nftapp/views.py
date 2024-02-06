@@ -56,7 +56,6 @@ from .models import Job
 from .ml_utils import load_data, create_overall_infos_column, apply_text_preprocessing, calculate_cosine_similarity_matrix, rank_candidates
 
 from collections import defaultdict
-
 def ranked_applicants_view(request, job_id):
     try:
         # Get the job based on job_id
@@ -64,35 +63,29 @@ def ranked_applicants_view(request, job_id):
 
         # Load data for a specific job, create overall_infos column, and apply text preprocessing
         df = load_data(job_id)
-        df = create_overall_infos_column(df)
-        cleaned_infos = apply_text_preprocessing(df)
 
+        if df.empty:
+            # Handle case when there are no applicants for the selected job
+            return render(request, 'no_applicants.html', {'job': job})
+
+        df = create_overall_infos_column(df)
+        cleaned_infos = text_preprocessing(df['overall_infos'])
+        
         # Calculate cosine similarity matrix
         similarity_matrix = calculate_cosine_similarity_matrix(cleaned_infos)
 
-        # Rank candidates
-        top_candidates = rank_candidates(similarity_matrix)
+        # Rank candidates with their names
+        top_candidates = rank_candidates(similarity_matrix, df)
 
-        # Organize candidates by job title
-        candidates_by_job = defaultdict(list)
-        for idx, candidates in enumerate(top_candidates):
-            if idx < len(df):  # Ensure index is within DataFrame range
-                job_title = df.iloc[idx]['title']
-                applied_candidates = [(df.loc[candidate[0], 'full_name'], df.loc[candidate[0], 'email'], candidate[1]) for candidate in candidates if df.loc[candidate[0], 'applied_job_id'] == job_id]
-                candidates_by_job[job_title].extend(applied_candidates)
-
-        # Print debugging information
-        print("DataFrame Length:", len(df))
-        print("DataFrame Index:", df.index)
-        print("Top Candidates:", top_candidates)
-
-        context = {'job': job, 'candidates_by_job': candidates_by_job}
+        context = {'job': job, 'top_candidates': top_candidates}
         return render(request, 'ranked_applicants.html', context)
     except Exception as e:
         # Handle the exception gracefully, log the error, and provide a meaningful response to the user
         error_message = "An error occurred while processing the ranked applicants. Please try again later."
         print(f"Error in ranked_applicants_view: {e}")
         return render(request, 'error.html', {'error_message': error_message})
+
+
 
 
 

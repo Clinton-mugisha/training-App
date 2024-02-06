@@ -58,15 +58,14 @@ def calculate_cosine_similarity_matrix(cleaned_infos):
     else:
         return None
 
-def rank_candidates(similarity_matrix, num_top_candidates=5):
+def rank_candidates(similarity_matrix, df, num_top_candidates=5):
     top_candidates = []
 
     for i in range(similarity_matrix.shape[0]):
         candidates_with_scores = list(enumerate(similarity_matrix[i]))
         candidates_with_scores.sort(key=lambda x: x[1], reverse=True)
         top_candidates_for_job = candidates_with_scores[:num_top_candidates]
-        top_candidates.append(top_candidates_for_job)
-        
+        top_candidates.append([(df.loc[candidate[0], 'full_name'], candidate[1]) for candidate in top_candidates_for_job])
 
     return top_candidates
 
