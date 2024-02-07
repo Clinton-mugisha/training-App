@@ -1,6 +1,4 @@
-#!/bin/sh
-'''exec' "/home/clinton/projects/training app/venv/bin/python3" "$0" "$@"
-' '''
+#!/home/clinton/projects/training-App/venv/bin/python3
 # -*- coding: utf-8 -*-
 import re
 import sys
