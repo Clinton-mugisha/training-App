@@ -3,11 +3,13 @@
 {% block content %}
   <h2>{{ job.title }}</h2>
   <ul>
-    {% for candidate_info in top_candidates %}
-      <li>
-        <p>Name: {{ candidate_info.0 }}</p>
-        <p>Score: {{ candidate_info.1 }}</p>
-      </li>
+    {% for candidates in top_candidates %}
+      {% for candidate_info in candidates %}
+        <li>
+          <p>Name: {{ candidate_info.0 }}</p>
+          <p>Score: {{ candidate_info.1 }}</p>
+        </li>
+      {% endfor %}
     {% endfor %}
   </ul>
 {% endblock %}
