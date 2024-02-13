@@ -18,14 +18,8 @@ class Resume(models.Model):
     education = models.CharField(max_length=255)
     skills = models.TextField()
     work_experience = models.TextField()
-<<<<<<< HEAD
-    languages = models.TextField()
-    other_language = models.CharField(max_length=100, blank=True, null=True)  # Add this field
-    upload_cv = models.FileField(upload_to='cv_uploads/')
-=======
     upload_cv = models.FileField(upload_to='cv_uploads/')
     applied_job = models.ForeignKey(Job, on_delete=models.CASCADE)
->>>>>>> Development
 
     def __str__(self):
         return self.full_name
