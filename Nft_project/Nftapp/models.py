@@ -20,8 +20,6 @@ class Resume(models.Model):
     work_experience = models.TextField()
     upload_cv = models.FileField(upload_to='cv_uploads/')
     applied_job = models.ForeignKey(Job, on_delete=models.CASCADE)
-    languages = models.TextField()
-    other_language = models.CharField(max_length=100, blank=True, null=True)  # Add this field
     upload_cv = models.FileField(upload_to='cv_uploads/')
 
     def __str__(self):
