@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>{{ job.title }}</h2>
+  <table style="border:1px solid black; border-collapse: collapse;">
+    <tr>
+      <th style="border:1px solid black; padding:10px;">Name</th>
+      <th style="border:1px solid black; padding:10px;">Score</th>
+    </tr>
+    {% for candidate_info in top_candidates %}
+      <tr>
+        <td style="border:1px solid black; padding:10px;">{{ candidate_info.0 }}</td>
+        <td style="border:1px solid black; padding:10px;">{{ candidate_info.1 }}</td>
+      </tr>
+    {% endfor %}
+  </table>
+{% endblock %}
