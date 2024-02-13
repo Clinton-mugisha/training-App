@@ -37,3 +37,4 @@ class ResumeForm(forms.Form):
 
     upload_cv = forms.FileField(label='Upload CV')
 
+>>>>>>> Development
