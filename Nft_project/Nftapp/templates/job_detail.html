@@ -6,11 +6,13 @@
     <div class="col-12 grid-margin stretch-card mx-auto  mt-5">
         <div class="card">
             <div class="card-body">
-                <h4>Job on offer</h4>
-                <h1 class="card-title">{{ object.title }}</h1>
+                <div class="card-header" style="border-radius: 8px; background-color:#fff;"><h1 class="text-center">{{ object.title }}</h1></div>
+                <br>
                 <p>{{ object.description }}</p>
                 <p>{{ object.posted_at }}</p>
-                <button  class="btn btn-primary"><a class="nav-link" href="{% url 'create_resume' %}" style="text-decoration: none; color: azure;">Apply</a></button>
+                <button  class="btn  btn-lg"><a class="nav-link" href="{% url 'create_resume' %}" style="text-decoration: none; color: azure;">Apply</a></button>
+                <button  class="btn  btn-lg"><a class="nav-link" href="{% url 'ranked_applicants' job.id %}" style="text-decoration: none; color: azure;">Rank</a></button>
+                
             </div>
             </form>
         </div>
