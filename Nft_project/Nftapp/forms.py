@@ -22,7 +22,7 @@ class ResumeForm(forms.Form):
     education = forms.CharField(
         label="Education",
         required=False,
-        widget=forms.Textarea(attrs={"rows": 2, "cols": 65,}),
+        widget=forms.Textarea(attrs={"rows": 3, "cols": 70,}),
     )
     skills = forms.CharField(
         label="Skills",

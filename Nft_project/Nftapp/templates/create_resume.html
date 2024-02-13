@@ -3,54 +3,56 @@
 <div class="row">
     <div class="col-lg-8 grid-margin stretch-card mx-auto mt-5">
         <div class="card">
+            
             <div class="card-body">
-                <h2 class="card-title">Apply for Job</h2>
+                <div class="card-header" style="border-radius: 8px; background-color:#fff;"><h1 class="text-center" style="color:#383f51;">Apply for Job</h1></div>
+                <br>
                 <form method="post" class="row g-3" enctype="multipart/form-data">
                     {% csrf_token %}
-                    <div class="col-md-4">
-                        <div class="form-group">
+                    <div class="col-md-6">
+                        <div class="mb-3">
                             <label for="{{ form.full_name.id_for_label }}" class="form-label">Full Name</label>
                             {{ form.full_name }}
                         </div>
                     </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
+                    <div class="col-md-6">
+                        <div class="mb-3">
                             <label for="{{ form.phone_number.id_for_label }}" class="form-label">Phone number</label>
                             {{ form.phone_number }}
                         </div>
                     </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
+                    <div class="col-md-12">
+                        <div class="mb-3">
                             <label for="{{ form.email.id_for_label }}" class="form-label">Email</label>
                             {{ form.email }}
                         </div>
                     </div>
-                    <div class="col-12">
-                        <div class="form-group">
+                    <div class="col-md-6">
+                        <div class="mb-3">
                             <label class="form-label">Education</label>
                             {{ form.education }}
                         </div>
                     </div>
-                    <div class="col-12">
-                        <div class="form-group">
+                    <div class="col-md-6">
+                        <div class="mb-3">
                             <label for="{{ form.skills.id_for_label }}" class="form-label">Skills</label>
                             {{ form.skills }}
                         </div>
                     </div>
                     <div class="col-12">
-                        <div class="form-group">
+                        <div class="mb-3">
                             <label class="form-label">Work Experience</label>
                             {{ form.work_experience }}
                         </div>
                     </div>
                     <div class="col-12">
-                        <div class="form-group">
+                        <div class="mb-3">
                             <label for="{{ form.applied_job.id_for_label }}" class="form-label">Select Job</label>
                             {{ form.applied_job }}
                         </div>
                     </div>
                     <div class="col-12">
-                        <div class="form-group">
+                        <div class="mb-3">
                             <label for="{{ form.upload_cv.id_for_label }}" class="form-label">Upload CV</label>
                             <div class="input-group">
                                 <input type="file" class="form-control" id="{{ form.upload_cv.id_for_label }}" name="{{ form.upload_cv.name }}" aria-describedby="inputGroupFileAddon">
@@ -59,8 +61,8 @@
                         </div>
                     </div>
                     <div class="col-12">
-                        <div class="form-group">
-                            <button type="submit" class="btn btn-primary">Submit</button>
+                        <div class="mb-3">
+                            <button type="submit" class="btn  btn-lg">Apply</button>
                         </div>
                     </div>
                 </form>
@@ -89,37 +91,44 @@
     }
 
     .btn-primary {
-        background-color: #007bff;
-        border-color: #007bff;
+        background-color: #0073b1; /* LinkedIn Blue */
+        border-color: #0073b1; /* LinkedIn Blue */
     }
 
     .btn-primary:hover {
-        background-color: #0056b3;
-        border-color: #0056b3;
+        background-color: #005a8c; /* LinkedIn Darker Blue */
+        border-color: #005a8c; /* LinkedIn Darker Blue */
     }
 
-  
-    input[type="text"] {
+    input[type="text"],
+    textarea {
         width: 100%;
+        border-radius: 5px;
+        border: 1px solid #d1d1d1; /* LinkedIn Gray */
+        padding: 8px;
+        box-sizing: border-box;
     }
-   
-    select[name="work_experience"] {
-        width: 50%;
-    }
+
+    select[name="work_experience"],
     select[name="applied_job"] {
-        width: 55%;
+        width: 100%;
+        border-radius: 5px;
+        border: 1px solid #d1d1d1; /* LinkedIn Gray */
+        padding: 8px;
+        box-sizing: border-box;
     }
-    
-     .input-group-text {
+
+    .input-group-text {
         cursor: pointer;
-        background-color: #007bff;
-        border-color: #007bff;
+        background-color: #0073b1; /* LinkedIn Blue */
+        border-color: #0073b1; /* LinkedIn Blue */
         color: white;
+        border-radius: 5px;
     }
 
     .input-group-text:hover {
-        background-color: #0056b3;
-        border-color: #0056b3;
+        background-color: #005a8c; /* LinkedIn Darker Blue */
+        border-color: #005a8c;
     }
 </style>
 {% endblock %}
