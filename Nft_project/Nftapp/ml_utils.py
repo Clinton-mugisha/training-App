@@ -68,20 +68,16 @@ def rank_candidates(similarity_matrix, df, num_top_candidates=5):
         candidates_with_scores.sort(key=lambda x: x[1], reverse=True)
 
         for candidate in candidates_with_scores:
-            candidate_name = df.loc[candidate[0], 'full_name']
+            candidate_index = candidate[0]
+            candidate_name = df.loc[candidate_index, 'full_name']
+            candidate_email = df.loc[candidate_index, 'email']  # Add email retrieval
             if candidate_name not in included_candidates and len(top_candidates) < num_top_candidates:
-                top_candidates.append((candidate_name, candidate[1]))
+                top_candidates.append((candidate_name, candidate_email, candidate[1]))
                 included_candidates.add(candidate_name)
 
-    # Display the top candidates with proper formatting
-    print("Top 5 Candidates:")
-    for idx, (name, score) in enumerate(top_candidates[:5], 1):
-        print(f"Rank {idx}:")
-        print(f"Name: {name}")
-        print(f"Score: {score}")
-        print()  # Add an empty line for separation
+    # Return the top candidates including email
+    return top_candidates[:num_top_candidates]
 
-    return top_candidates[:5]
 
 
 def apply_text_preprocessing(df):
