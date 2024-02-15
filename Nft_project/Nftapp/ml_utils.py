@@ -59,6 +59,24 @@ def calculate_cosine_similarity_matrix(cleaned_infos):
     else:
         return None
 
+# def rank_candidates(similarity_matrix, df, num_top_candidates=5):
+#     top_candidates = []
+#     included_candidates = set() 
+
+#     for i in range(similarity_matrix.shape[0]):
+#         candidates_with_scores = list(enumerate(similarity_matrix[i]))
+#         candidates_with_scores.sort(key=lambda x: x[1], reverse=True)
+
+#         for candidate in candidates_with_scores:
+#             candidate_index = candidate[0]
+#             candidate_name = df.loc[candidate_index, 'full_name']
+#             candidate_email = df.loc[candidate_index, 'email']  # Add email retrieval
+#             if candidate_name not in included_candidates and len(top_candidates) < num_top_candidates:
+#                 top_candidates.append((candidate_name, candidate_email, candidate[1]))
+#                 included_candidates.add(candidate_name)
+
+#     # Return the top candidates including email
+#     return top_candidates[:num_top_candidates]
 def rank_candidates(similarity_matrix, df, num_top_candidates=5):
     top_candidates = []
     included_candidates = set() 
@@ -72,14 +90,16 @@ def rank_candidates(similarity_matrix, df, num_top_candidates=5):
             candidate_name = df.loc[candidate_index, 'full_name']
             candidate_email = df.loc[candidate_index, 'email']  # Add email retrieval
             if candidate_name not in included_candidates and len(top_candidates) < num_top_candidates:
-                top_candidates.append((candidate_name, candidate_email, candidate[1]))
+                # Convert score to percentage format
+                score_percentage = round(candidate[1] * 100, 2)
+                top_candidates.append((candidate_name, candidate_email, score_percentage))
                 included_candidates.add(candidate_name)
 
     # Return the top candidates including email
     return top_candidates[:num_top_candidates]
 
 
-
+# 
 def apply_text_preprocessing(df):
     cleaned_infos = df['overall_infos'].apply(text_preprocessing)
     return cleaned_infos
