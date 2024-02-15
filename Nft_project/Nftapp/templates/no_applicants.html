@@ -1,13 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>No Applicants Available</title>
-</head>
-<body>
-    <h1>No Applicants Available</h1>
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+    <div class="card-body">
+        <div class="card-header" style="border-radius: 8px; background-color:#fff;"><h1>No Applicants Available</h1></div>
     <p>There are currently no applicants for the job: {{ job.title }}</p>
+    </div>
     <!-- You can include additional information about the job here -->
-</body>
-</html>
+</div>
+{% endblock %}
