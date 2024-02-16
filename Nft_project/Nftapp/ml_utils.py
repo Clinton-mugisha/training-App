@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 import nltk
 from nltk.corpus import stopwords
 from sklearn.feature_extraction.text import CountVectorizer
@@ -37,7 +38,23 @@ def create_overall_infos_column(df):
 
 from sklearn.feature_extraction.text import TfidfVectorizer
 
-# Replace your `text_processing` function with following
+import pandas as pd
+import nltk
+from nltk.corpus import stopwords
+from sklearn.metrics.pairwise import cosine_similarity
+from scipy.sparse import csr_matrix
+from .models import Job, Resume
+from transformers import BertTokenizer, BertModel
+
+
+# Load pre-trained model
+model = BertModel.from_pretrained('bert-base-uncased')
+
+# Load pre-trained model tokenizer
+tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
+
+# Rest of your code goes here
+
 def text_preprocessing(column):
     if not column.empty:
         column = column.str.lower()
@@ -45,22 +62,39 @@ def text_preprocessing(column):
         stop = stopwords.words('english')
         keywords = column.apply(lambda x: [word for word in x.split() if word not in stop])
 
-        tfidf = TfidfVectorizer()
-        converted_matrix = tfidf.fit_transform(column)
+        # Define a function to get embeddings
+        # Define a function to get embeddings
+        def get_bert_embedding(text):
+            inputs = tokenizer(text, return_tensors='pt')
+            outputs = model(**inputs)
 
-        print("Converted matrix shape:", converted_matrix.shape)  # Add a print statement to display the shape of the converted matrix
+            # Use the representation from the first transformer of the BERT model
+            embeddings = outputs.last_hidden_state.detach().numpy()
 
+            # Average the embeddings over sequence length dimension
+            document_vector = np.mean(embeddings, axis=1)[0]
+
+            return document_vector
+
+        converted_matrix = column.apply(get_bert_embedding)
         return converted_matrix
     else:
         return None
 
+# Rest of your code goes here
+
 def calculate_cosine_similarity_matrix(cleaned_infos):
     if cleaned_infos is not None:
-        cleaned_infos = csr_matrix(cleaned_infos)
-        cosine_similarity_matrix = cosine_similarity(cleaned_infos)
+        # Convert the 1D array of BERT embeddings to a 2D numpy array
+        cleaned_infos_array = np.stack(cleaned_infos.values)
+
+        # Calculate cosine similarity
+        cosine_similarity_matrix = cosine_similarity(cleaned_infos_array)
+        
         return cosine_similarity_matrix
     else:
         return None
+
 
 # def rank_candidates(similarity_matrix, df, num_top_candidates=5):
 #     top_candidates = []
