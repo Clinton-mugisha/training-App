@@ -35,6 +35,9 @@ def create_overall_infos_column(df):
     df['overall_infos'] = overall_infos
     return df
 
+from sklearn.feature_extraction.text import TfidfVectorizer
+
+# Replace your `text_processing` function with following
 def text_preprocessing(column):
     if not column.empty:
         column = column.str.lower()
@@ -42,8 +45,8 @@ def text_preprocessing(column):
         stop = stopwords.words('english')
         keywords = column.apply(lambda x: [word for word in x.split() if word not in stop])
 
-        CV = CountVectorizer()
-        converted_matrix = CV.fit_transform(column)
+        tfidf = TfidfVectorizer()
+        converted_matrix = tfidf.fit_transform(column)
 
         print("Converted matrix shape:", converted_matrix.shape)  # Add a print statement to display the shape of the converted matrix
 

@@ -5,7 +5,7 @@ from django.views.generic import ListView, DetailView, CreateView, View
 from .models import Job, Resume
 from .forms import JobForm, ResumeForm
 
-from .ml_utils import load_data, create_overall_infos_column, apply_text_preprocessing, calculate_cosine_similarity_matrix, rank_candidates
+from .ml_utils import load_data, create_overall_infos_column,calculate_cosine_similarity_matrix, rank_candidates
 from .ml_utils import text_preprocessing
 
 from collections import defaultdict
@@ -13,7 +13,7 @@ import pdb
 
 from django.shortcuts import render, get_object_or_404
 from .models import Job
-from .ml_utils import load_data, create_overall_infos_column, apply_text_preprocessing, calculate_cosine_similarity_matrix, rank_candidates
+from .ml_utils import load_data, create_overall_infos_column,calculate_cosine_similarity_matrix, rank_candidates
 
 
 from collections import defaultdict
