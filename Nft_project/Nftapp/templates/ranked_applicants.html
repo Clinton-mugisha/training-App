@@ -12,7 +12,7 @@
                 <tr>
                   <th style="font-size: 28px;">Name</th>
                   <th style="font-size: 28px;">Email</th>
-                  <th style="font-size: 28px;">Score (%)</th>
+                  <th style="font-size: 28px;">Score (%)</th> 
                   <th style="font-size: 28px;">CV</th>
                 </tr>
               </thead>
@@ -22,7 +22,7 @@
                     <td style="font-size: 24px;">{{ candidate_info.0 }}</td>
                     <td style="font-size: 24px;">{{ candidate_info.1 }}</td>
                     <td style="font-size: 24px;">{{ candidate_info.2 }}%</td>
-                    <td style="font-size: 24px;"><a href="{{ candidate_info.3.upload_cv.url }}">Download CV</a></td>
+                    <td><a href="{{ candidate_info.upload_cv.url }}" download>Download CV</a></td>
                   </tr>
                 {% endfor %}
               </tbody>
