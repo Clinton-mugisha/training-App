@@ -33,15 +33,20 @@ def load_data(job_id=None):
 def create_overall_infos_column(df):
     overall_infos = df.apply(lambda row: f"{row['full_name']} {row['skills']} {row['education']} {row['work_experience']}", axis=1)
     df['overall_infos'] = overall_infos
+    print(df)
     return df
+
+from nltk.stem import WordNetLemmatizer
+
 def text_preprocessing(column):
     if not column.empty:
         column = column.str.lower()
         column = column.str.replace('http\S+|www.\S+|@|%|:|,', '', regex=True)
         stop = stopwords.words('english')
-        keywords = column.apply(lambda x: [word for word in x.split() if word not in stop])
+        lemmatizer = WordNetLemmatizer() #Create a lemmatizer object
+        keywords = column.apply(lambda x: [lemmatizer.lemmatize(word) for word in x.split() if word not in stop]) #lemmatize tokens
 
-        tfidf = TfidfVectorizer()
+        tfidf = TfidfVectorizer(ngram_range=(1, 3))
         converted_matrix = tfidf.fit_transform(column)
 
         print("Converted matrix shape:", converted_matrix.shape)  # Add a print statement to display the shape of the converted matrix
@@ -58,24 +63,6 @@ def calculate_cosine_similarity_matrix(cleaned_infos):
     else:
         return None
 
-# def rank_candidates(similarity_matrix, df, num_top_candidates=5):
-#     top_candidates = []
-#     included_candidates = set() 
-
-#     for i in range(similarity_matrix.shape[0]):
-#         candidates_with_scores = list(enumerate(similarity_matrix[i]))
-#         candidates_with_scores.sort(key=lambda x: x[1], reverse=True)
-
-#         for candidate in candidates_with_scores:
-#             candidate_index = candidate[0]
-#             candidate_name = df.loc[candidate_index, 'full_name']
-#             candidate_email = df.loc[candidate_index, 'email']  # Add email retrieval
-#             if candidate_name not in included_candidates and len(top_candidates) < num_top_candidates:
-#                 top_candidates.append((candidate_name, candidate_email, candidate[1]))
-#                 included_candidates.add(candidate_name)
-
-#     # Return the top candidates including email
-#     return top_candidates[:num_top_candidates]
 def rank_candidates(similarity_matrix, df, num_top_candidates=10):
     top_candidates = []
     included_candidates = set() 
@@ -87,7 +74,7 @@ def rank_candidates(similarity_matrix, df, num_top_candidates=10):
         for candidate in candidates_with_scores:
             candidate_index = candidate[0]
             candidate_name = df.loc[candidate_index, 'full_name']
-            candidate_email = df.loc[candidate_index, 'email']  # Add email retrieval
+            candidate_email = df.loc[candidate_index, 'email']
             if candidate_name not in included_candidates and len(top_candidates) < num_top_candidates:
                 # Convert score to percentage format
                 score_percentage = round(candidate[1] * 100, 2)
@@ -97,8 +84,6 @@ def rank_candidates(similarity_matrix, df, num_top_candidates=10):
     # Return the top candidates including email
     return top_candidates[:num_top_candidates]
 
-
-# 
 def apply_text_preprocessing(df):
     cleaned_infos = df['overall_infos'].apply(text_preprocessing)
     return cleaned_infos
