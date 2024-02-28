@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
+{% load widget_tweaks %}
 <div class="row">
     <div class="col-lg-8 grid-margin stretch-card mx-auto mt-5">
         <div class="card">
@@ -30,13 +31,13 @@
                     <div class="col-md-6">
                         <div class="mb-3">
                             <label class="form-label">Education</label>
-                            {{ form.education }}
+                            {{ form.education|attr:"placeholder:Enter highest level of education" }}
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="mb-3">
                             <label for="{{ form.skills.id_for_label }}" class="form-label">Skills</label>
-                            {{ form.skills }}
+                            {{ form.skills|attr:"placeholder:Enter the skills you have" }}
                         </div>
                     </div>
                     <div class="col-12">
